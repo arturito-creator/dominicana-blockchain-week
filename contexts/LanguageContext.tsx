@@ -3,10 +3,13 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Language, translations } from '@/lib/i18n';
 
+// Use a type that represents the common structure of translations
+type TranslationType = typeof translations.es;
+
 interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
-  t: typeof translations.es;
+  t: TranslationType;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -27,7 +30,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     localStorage.setItem('language', lang);
   };
 
-  const t = translations[language];
+  const t = translations[language] as TranslationType;
 
   return (
     <LanguageContext.Provider value={{ language, setLanguage, t }}>
