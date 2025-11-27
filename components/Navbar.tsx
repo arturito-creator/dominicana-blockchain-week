@@ -71,7 +71,7 @@ export default function Navbar() {
           <Link href="#hero" className="flex items-center">
             <div className="relative h-8 w-auto md:h-10">
               <Image
-                src="/THE_LOGO_DBW2026.png"
+                src="/DBW2026_LogoCorto.png"
                 alt="Dominicana Blockchain Week 2026"
                 fill
                 className="object-contain"

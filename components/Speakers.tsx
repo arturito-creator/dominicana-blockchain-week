@@ -1,95 +1,102 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 // Speaker data from presentation
-const speakers = [
+const speakerData = [
   {
     id: 1,
     name: 'Luis Abinader',
-    role: 'Presidente',
+    roleKey: 'president' as const,
     company: 'Gobierno República Dominicana',
-    tags: ['Gobierno', 'Liderazgo'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['government', 'leadership'] as const,
+    image: '/speakers/LuisAbinader.png',
     confirmed: true,
   },
   {
     id: 2,
     name: 'Carolina Mejía',
-    role: 'Alcaldesa',
+    roleKey: 'mayor' as const,
     company: 'Santo Domingo, República Dominicana',
-    tags: ['Gobierno', 'Ciudad'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['government', 'city'] as const,
+    image: '/speakers/CarolinaMejia.png',
     confirmed: true,
   },
   {
     id: 3,
     name: 'Antonio Gómez',
-    role: 'Consul General',
+    roleKey: 'consulGeneral' as const,
     company: 'Barcelona, República Dominicana',
-    tags: ['Diplomacia', 'Internacional'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['diplomacy', 'international'] as const,
+    image: '/speakers/AntonioGomez.png',
     confirmed: true,
   },
   {
     id: 4,
     name: 'Mance Harmon',
-    role: 'CEO',
+    roleKey: 'ceo' as const,
     company: 'Hedera',
-    tags: ['Blockchain', 'Liderazgo'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['blockchain', 'leadership'] as const,
+    image: '/speakers/ManceHarmon.png',
     confirmed: false,
   },
   {
     id: 5,
     name: 'Montse Guàrdia Güell',
-    role: '',
+    roleKey: null,
     company: 'IDEADED',
-    tags: ['Innovación', 'Ecosistema'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['innovation', 'ecosystem'] as const,
+    image: '/speakers/MontseGuardia.png',
     confirmed: true,
   },
   {
     id: 6,
     name: 'Guillermo Gómez',
-    role: 'Gobernador',
+    roleKey: 'governor' as const,
     company: 'Banco Central República Dominicana',
-    tags: ['Finanzas', 'Regulación'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['finance', 'regulation'] as const,
+    image: '/speakers/GuillermoGomez.png',
     confirmed: true,
   },
   {
     id: 7,
     name: 'Gilbert Verdian',
-    role: 'Fundador y CEO',
+    roleKey: 'founder' as const,
     company: 'Quant',
-    tags: ['Blockchain', 'Fundador'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['blockchain', 'founder'] as const,
+    image: '/speakers/GilbertVerdian.png',
     confirmed: false,
   },
   {
     id: 8,
     name: 'Charles Hoskinson',
-    role: 'Cofundador de Ethereum y Fundador',
+    roleKey: 'cofounder' as const,
     company: 'Cardano',
-    tags: ['Blockchain', 'Fundador'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['blockchain', 'founder'] as const,
+    image: '/speakers/CharlesHoskinson.png',
     confirmed: false,
   },
   {
     id: 9,
     name: 'Paolo Ardoino',
-    role: 'CTO',
+    roleKey: 'cto' as const,
     company: 'Tether',
-    tags: ['Tecnología', 'Stablecoins'],
-    image: '/placeholder-speaker.jpg',
+    tagKeys: ['technology', 'stablecoins'] as const,
+    image: '/speakers/PaoloArdoino.png',
     confirmed: false,
   },
 ];
 
 export default function Speakers() {
   const { t } = useLanguage();
+
+  const speakers = speakerData.map((speaker) => ({
+    ...speaker,
+    role: speaker.roleKey ? t.speakers.roles[speaker.roleKey] : '',
+    tags: speaker.tagKeys.map((tagKey) => t.speakers.tags[tagKey]),
+  }));
 
   return (
     <section
@@ -125,15 +132,15 @@ export default function Speakers() {
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl overflow-hidden hover:border-dbw-red/50 transition-all group"
             >
               {/* Speaker Image */}
-              <div className="relative h-64 bg-gradient-to-br from-dbw-blue to-dbw-blue-dark flex items-center justify-center">
-                <div className="text-6xl text-white/20">👤</div>
-                {/* Placeholder for actual image */}
-                {/* <Image
+              <div className="relative h-64 bg-gradient-to-br from-dbw-blue to-dbw-blue-dark overflow-hidden flex items-end justify-center p-4 pb-0">
+                <Image
                   src={speaker.image}
                   alt={speaker.name}
-                  fill
-                  className="object-cover"
-                /> */}
+                  width={200}
+                  height={240}
+                  className="object-contain w-auto h-full max-h-[240px]"
+                  unoptimized
+                />
               </div>
 
               {/* Speaker Info */}
@@ -144,11 +151,11 @@ export default function Speakers() {
                   </h3>
                   {speaker.confirmed ? (
                     <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded-full border border-green-500/30">
-                      ✓
+                      {t.speakers.confirmed}
                     </span>
                   ) : (
                     <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded-full border border-blue-500/30">
-                      PENDING
+                      {t.speakers.pending}
                     </span>
                   )}
                 </div>

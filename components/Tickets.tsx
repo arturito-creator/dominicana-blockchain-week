@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Tickets() {
@@ -8,74 +9,48 @@ export default function Tickets() {
 
   const tiers = [
     {
-      name: 'Full Access | DBW',
+      name: t.tickets.tiers.fullAccess.name,
       price: '$500',
-      description: 'Categoría de participación para Público en General Full Access CC | After Party / Además tienes un 5% de descuento en alojamiento por medio de la plataforma BLOCK TRAVEL',
-      features: [
-        'Acceso completo a todas las sesiones',
-        'After Party incluido',
-        '5% descuento en alojamiento',
-        'Materiales digitales del evento',
-        'Coffee breaks y almuerzo',
-      ],
-      highlighted: false,
+      priceImage: '/numeros/$500.png',
+      description: t.tickets.tiers.fullAccess.description,
+      features: t.tickets.tiers.fullAccess.features,
+      highlighted: true,
       soldOut: false,
     },
     {
-      name: 'Solo Expo | 1 Día',
+      name: t.tickets.tiers.soloExpo.name,
       price: '$50',
-      description: 'Categoría de participación para Público en General Solo Expo CC | Día 23/ABR',
-      features: [
-        'Acceso a la zona de exposición',
-        'Un día completo',
-        'Networking básico',
-        'Materiales digitales',
-      ],
+      priceImage: '/numeros/$50.png',
+      description: t.tickets.tiers.soloExpo.description,
+      features: t.tickets.tiers.soloExpo.features,
       highlighted: false,
       soldOut: false,
     },
     {
-      name: 'Estudiante | 1 Día',
+      name: t.tickets.tiers.student.name,
       price: '$50',
-      description: 'Categoría de participación para Público en General Formación | 1 Día | After Party',
-      features: [
-        'Acceso a sesiones de formación',
-        'Un día completo',
-        'After Party incluido',
-        'Materiales educativos',
-      ],
+      priceImage: '/numeros/$50.png',
+      description: t.tickets.tiers.student.description,
+      features: t.tickets.tiers.student.features,
       highlighted: false,
       soldOut: false,
     },
     {
-      name: 'Business',
+      name: t.tickets.tiers.business.name,
       price: '$3000',
-      description: 'Acceso full CC Food&drinks CC Investor\'s Night | Plazas Limitadas. Además tienes un 10% de descuento en alojamiento por medio de la plataforma BLOCK TRAVEL',
-      features: [
-        'Acceso completo a todas las sesiones',
-        'Food & drinks incluidos',
-        'Investor\'s Night exclusivo',
-        '10% descuento en alojamiento',
-        'Networking premium',
-        'Materiales exclusivos',
-      ],
-      highlighted: true,
+      priceImage: '/numeros/$3000.png',
+      description: t.tickets.tiers.business.description,
+      features: t.tickets.tiers.business.features,
+      highlighted: false,
       soldOut: false,
     },
     {
-      name: 'VIP',
+      name: t.tickets.tiers.vip.name,
       price: '$8000',
-      description: 'Cena Inaugural | Cena Investor\'s Night Acceso Full Zona VIP Welcome Pack | After Party VIP',
-      features: [
-        'Cena Inaugural exclusiva',
-        'Cena Investor\'s Night',
-        'Acceso completo zona VIP',
-        'Welcome Pack premium',
-        'After Party VIP',
-        'Networking de élite',
-        'Materiales exclusivos VIP',
-      ],
-      highlighted: true,
+      priceImage: '/numeros/$8000.png',
+      description: t.tickets.tiers.vip.description,
+      features: t.tickets.tiers.vip.features,
+      highlighted: false,
       soldOut: false,
     },
   ];
@@ -111,21 +86,21 @@ export default function Tickets() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
-              className={`relative bg-white/5 backdrop-blur-sm border rounded-xl p-6 md:p-8 overflow-hidden ${
+              className={`relative bg-white/5 backdrop-blur-sm border rounded-xl ${
                 tier.highlighted
-                  ? 'border-dbw-red bg-dbw-red/10'
-                  : 'border-white/10'
-              }`}
+                  ? 'border-dbw-red bg-dbw-red/10 pt-10 md:pt-12 px-6 md:px-8 pb-6 md:pb-8'
+                  : 'border-white/10 p-6 md:p-8'
+              } ${tier.soldOut ? 'overflow-hidden' : ''}`}
             >
               {/* Sold Out Banner */}
               {tier.soldOut && (
                 <div className="absolute top-0 left-0 w-full bg-dbw-red text-white text-center py-2 text-sm font-bold z-10 transform -rotate-12 origin-center">
-                  SOLD OUT
+                  {t.tickets.soldOut}
                 </div>
               )}
               
               {tier.highlighted && !tier.soldOut && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-dbw-red text-white text-sm font-semibold rounded-full">
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-dbw-red text-white text-sm font-semibold rounded-full whitespace-nowrap z-10">
                   {t.tickets.popular}
                 </div>
               )}
@@ -137,10 +112,15 @@ export default function Tickets() {
                 <p className="text-dbw-gray-light text-sm mb-4">
                   {tier.description}
                 </p>
-                 <div className="flex items-baseline justify-center gap-2">
-                   <span className="text-4xl font-bold font-handwritten text-dbw-red">
-                     {tier.price}
-                   </span>
+                 <div className="flex items-center justify-center">
+                   <Image
+                     src={tier.priceImage}
+                     alt={tier.price}
+                     width={200}
+                     height={80}
+                     className="h-16 w-auto object-contain"
+                     unoptimized
+                   />
                  </div>
               </div>
 
@@ -157,7 +137,7 @@ export default function Tickets() {
 
                {tier.soldOut ? (
                  <div className="w-full text-center py-3 px-6 rounded-lg font-semibold bg-white/5 text-dbw-gray-light border border-white/10 cursor-not-allowed">
-                   Tickets Agotados
+                   {t.tickets.ticketsSoldOut}
                  </div>
                ) : (
                  <a

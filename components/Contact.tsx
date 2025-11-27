@@ -117,7 +117,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-dbw-gray-light focus:outline-none focus:border-dbw-red transition-colors"
-                  placeholder="your@email.com"
+                  placeholder={t.contact.emailPlaceholder}
                 />
               </div>
             </div>

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 const socialLinks = [
@@ -9,14 +10,15 @@ const socialLinks = [
   { name: 'Instagram', href: 'https://instagram.com/dominicanablockchainweek', icon: '📷' },
 ];
 
-const legalLinks = [
-  { name: 'Privacy Policy', href: '#' },
-  { name: 'Terms of Service', href: '#' },
-  { name: 'Cookie Policy', href: '#' },
-];
 
 export default function Footer() {
   const { t } = useLanguage();
+
+  const legalLinks = [
+    { name: t.footer.legal.privacyPolicy, href: '#' },
+    { name: t.footer.legal.termsOfService, href: '#' },
+    { name: t.footer.legal.cookiePolicy, href: '#' },
+  ];
 
   return (
     <footer className="relative border-t border-white/10 py-12 px-4 sm:px-6 lg:px-8">
@@ -24,11 +26,17 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-8 mb-8">
           {/* Brand */}
           <div>
-            <div className="text-2xl font-bold text-white mb-4">
-              DBW<span className="text-dbw-red font-handwritten">2026</span>
+            <div className="mb-4">
+              <Image
+                src="/DBW2026_LogoCorto.png"
+                alt="DBW2026"
+                width={250}
+                height={100}
+                className="h-10 w-auto object-contain"
+              />
             </div>
             <p className="text-dbw-gray-light text-sm">
-              Dominicana Blockchain Week <span className="font-handwritten text-dbw-red">2026</span>
+              Dominicana Blockchain Week 2026
               <br />
               {t.footer.location}
               <br />
@@ -105,6 +113,61 @@ export default function Footer() {
                 </Link>
               ))}
             </div>
+          </div>
+        </div>
+
+        {/* Government Logos */}
+        <div className="pt-8 border-t border-white/10 mb-8">
+          <div className="flex flex-nowrap items-center justify-center gap-3 md:gap-4 overflow-x-auto">
+            <Image
+              src="/logos_gubernamentales/1_alcaldia_del_distrito_nacional_rd.png"
+              alt="Alcaldía del Distrito Nacional RD"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
+            <Image
+              src="/logos_gubernamentales/2_itla.png"
+              alt="ITLA"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
+            <Image
+              src="/logos_gubernamentales/3_gobierno_de_rd.png"
+              alt="Gobierno de República Dominicana"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
+            <Image
+              src="/logos_gubernamentales/4_consulado_rd_barcelona.png"
+              alt="Consulado RD Barcelona"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
+            <Image
+              src="/logos_gubernamentales/5_banco_central_rd.png"
+              alt="Banco Central RD"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
+            <Image
+              src="/logos_gubernamentales/6_banco_central_rd_2.png"
+              alt="Banco Central RD"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
+            <Image
+              src="/logos_gubernamentales/7_pro_dominicana.png"
+              alt="Pro Dominicana"
+              width={150}
+              height={100}
+              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+            />
           </div>
         </div>
 

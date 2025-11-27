@@ -3,50 +3,51 @@
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
 
-const tracks = [
-  { id: 'defi', name: 'DeFi', color: 'dbw-red' },
-  { id: 'regulation', name: 'Regulation', color: 'dbw-blue' },
-  { id: 'builders', name: 'Builders', color: 'dbw-red' },
-  { id: 'institutions', name: 'Institutions', color: 'dbw-blue' },
-  { id: 'latam', name: 'LatAm Focus', color: 'dbw-red' },
-];
 
 
 export default function Agenda() {
   const { t } = useLanguage();
 
+  const tracks = [
+    { id: 'defi', name: t.agenda.tracks.defi, color: 'dbw-red' },
+    { id: 'regulation', name: t.agenda.tracks.regulation, color: 'dbw-blue' },
+    { id: 'builders', name: t.agenda.tracks.builders, color: 'dbw-red' },
+    { id: 'institutions', name: t.agenda.tracks.institutions, color: 'dbw-blue' },
+    { id: 'latam', name: t.agenda.tracks.latam, color: 'dbw-red' },
+  ];
+
   const schedule = [
     {
       day: t.agenda.day1,
-      date: '26 de mayo, 2026',
+      date: t.agenda.sessions.day1.date,
       sessions: [
-        { time: '09:00', title: 'Keynote de Apertura', track: 'all' },
-        { time: '10:30', title: 'Panel de Discusión DeFi', track: 'defi' },
-        { time: '12:00', title: 'Almuerzo y Networking', track: 'all' },
-        { time: '14:00', title: 'Taller de Marco Regulatorio', track: 'regulation' },
-        { time: '15:30', title: 'Showcase de Builders', track: 'builders' },
-        { time: '17:00', title: 'Palabras de Cierre', track: 'all' },
+        { time: '09:00', title: t.agenda.sessions.day1.openingKeynote, track: 'all' },
+        { time: '10:30', title: t.agenda.sessions.day1.defiPanel, track: 'defi' },
+        { time: '12:00', title: t.agenda.sessions.day1.lunchNetworking, track: 'all' },
+        { time: '14:00', title: t.agenda.sessions.day1.regulatoryWorkshop, track: 'regulation' },
+        { time: '15:30', title: t.agenda.sessions.day1.buildersShowcase, track: 'builders' },
+        { time: '17:00', title: t.agenda.sessions.day1.closingWords, track: 'all' },
       ],
     },
     {
       day: t.agenda.day2,
-      date: '27 de mayo, 2026',
+      date: t.agenda.sessions.day2.date,
       sessions: [
-        { time: '09:00', title: 'Keynote Matutino', track: 'all' },
-        { time: '10:30', title: 'Adopción Institucional', track: 'institutions' },
-        { time: '12:00', title: 'Almuerzo y Networking', track: 'all' },
-        { time: '14:00', title: 'Panel del Ecosistema LatAm', track: 'latam' },
-        { time: '15:30', title: 'Deep Dive Técnico', track: 'builders' },
-        { time: '17:00', title: 'Recepción de Networking', track: 'all' },
+        { time: '09:00', title: t.agenda.sessions.day2.morningKeynote, track: 'all' },
+        { time: '10:30', title: t.agenda.sessions.day2.institutionalAdoption, track: 'institutions' },
+        { time: '12:00', title: t.agenda.sessions.day2.lunchNetworking, track: 'all' },
+        { time: '14:00', title: t.agenda.sessions.day2.latamEcosystemPanel, track: 'latam' },
+        { time: '15:30', title: t.agenda.sessions.day2.technicalDeepDive, track: 'builders' },
+        { time: '17:00', title: t.agenda.sessions.day2.networkingReception, track: 'all' },
       ],
     },
     {
       day: t.agenda.day3,
-      date: '28 de mayo, 2026',
+      date: t.agenda.sessions.day3.date,
       sessions: [
-        { time: '09:00', title: 'Keynote Final', track: 'all' },
-        { time: '10:30', title: 'El Futuro de Web3', track: 'all' },
-        { time: '12:00', title: 'Ceremonia de Cierre', track: 'all' },
+        { time: '09:00', title: t.agenda.sessions.day3.finalKeynote, track: 'all' },
+        { time: '10:30', title: t.agenda.sessions.day3.futureOfWeb3, track: 'all' },
+        { time: '12:00', title: t.agenda.sessions.day3.closingCeremony, track: 'all' },
       ],
     },
   ];
@@ -109,7 +110,7 @@ export default function Agenda() {
                     key={sessionIndex}
                     className="flex flex-col sm:flex-row gap-4 p-4 bg-white/5 rounded-lg border border-white/5 hover:border-dbw-red/30 transition-colors"
                   >
-                    <div className="text-dbw-red font-semibold min-w-[80px] font-handwritten">
+                    <div className="text-white font-semibold min-w-[80px]">
                       {session.time}
                     </div>
                     <div className="flex-1">
@@ -138,7 +139,7 @@ export default function Agenda() {
           className="text-center mt-12"
         >
           <p className="text-dbw-gray-light mb-4">
-            Agenda detallada con ponentes y temas próximamente
+            {t.agenda.detailedAgendaComing}
           </p>
           <a
             href="#contact"

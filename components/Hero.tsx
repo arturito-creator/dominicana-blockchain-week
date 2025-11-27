@@ -1,55 +1,103 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { MagneticButton } from '@/components/MagneticButton';
+import PolaroidCard from '@/components/PolaroidCard';
 
 export default function Hero() {
   const { t } = useLanguage();
+  const [windowWidth, setWindowWidth] = useState(1920);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
     <section
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
+      {/* Polaroid Cards - Stacked in bottom right */}
+      <div className="absolute bottom-8 right-8 z-20 pointer-events-none" style={{ width: '300px', height: '400px' }}>
+        <div className="relative w-full h-full">
+          <PolaroidCard
+            image="/fotos_evento/Drag1.jpg"
+            frontText={t.hero.polaroidCards.card1.frontText}
+            backText={t.hero.polaroidCards.card1.backText}
+            initialRotation={-3}
+            initialX={0}
+            initialY={0}
+            zIndex={3}
+            delay={1}
+          />
+          <PolaroidCard
+            image="/fotos_evento/Drag2.jpg"
+            frontText={t.hero.polaroidCards.card2.frontText}
+            backText={t.hero.polaroidCards.card2.backText}
+            initialRotation={5}
+            initialX={-15}
+            initialY={-15}
+            zIndex={2}
+            delay={1.2}
+          />
+          <PolaroidCard
+            image="/fotos_evento/Drag3.jpg"
+            frontText={t.hero.polaroidCards.card3.frontText}
+            backText={t.hero.polaroidCards.card3.backText}
+            initialRotation={-2}
+            initialX={-30}
+            initialY={-30}
+            zIndex={1}
+            delay={1.4}
+          />
+        </div>
+      </div>
+
       {/* Content Container */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-6 py-12 md:py-20">
+        <div className="grid md:grid-cols-1 gap-12 items-center">
           {/* Left: Logo and Title */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8"
+            className="space-y-6"
           >
             {/* Logo */}
-            <div className="relative w-32 h-32 md:w-48 md:h-48">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.8 }}
+              className="relative w-full max-w-xl md:max-w-2xl lg:max-w-3xl"
+            >
+              {/* SEO: Hidden H1 for search engines */}
+              <h1 className="sr-only">
+                {t.hero.title} {t.hero.subtitle} {t.hero.year}
+              </h1>
               <Image
-                src="/THE_LOGO_DBW2026.png"
-                alt="Dominicana Blockchain Week 2026 Logo"
-                fill
-                className="object-contain"
+                src="/THE_LOGO_DBW2026.png?v=3"
+                alt={t.hero.logoAlt}
+                width={1600}
+                height={800}
+                className="w-full h-auto object-contain"
                 priority
+                unoptimized
               />
-            </div>
+            </motion.div>
 
-            <div className="space-y-4">
-              <motion.h1
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight"
-              >
-                {t.hero.title}{' '}
-                <span className="text-dbw-red">{t.hero.subtitle}</span>
-                <br />
-                <span className="text-dbw-red font-handwritten">{t.hero.year}</span>
-              </motion.h1>
+            <div className="space-y-4 max-w-4xl md:max-w-5xl lg:max-w-6xl mt-8 md:mt-10">
 
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-lg md:text-xl text-dbw-gray-light max-w-2xl leading-relaxed"
+                className="text-lg md:text-xl text-dbw-gray-light leading-relaxed"
               >
                 {t.hero.description}
               </motion.p>
@@ -60,7 +108,7 @@ export default function Hero() {
                 transition={{ delay: 0.45, duration: 0.8 }}
                 className="text-xl md:text-2xl font-semibold text-white"
               >
-                26-28 <span className="font-handwritten text-dbw-red">Mayo</span> 2026 | Santo Domingo
+                {t.hero.dateLocation}
               </motion.div>
             </div>
 
@@ -69,17 +117,19 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.8 }}
-              className="flex flex-wrap gap-4"
+              className="flex flex-wrap gap-4 items-center"
             >
-              <a
-                href="#tickets"
-                className="px-8 py-4 bg-dbw-red text-white font-semibold rounded-lg hover:bg-dbw-red-dark transition-colors shadow-lg hover:shadow-xl"
-              >
-                {t.hero.getTickets}
-              </a>
+              <MagneticButton>
+                <a
+                  href="#tickets"
+                  className="px-8 py-4 bg-dbw-red text-white font-semibold rounded-lg hover:bg-dbw-red-dark transition-colors shadow-lg hover:shadow-xl border-2 border-transparent leading-none"
+                >
+                  {t.hero.getTickets}
+                </a>
+              </MagneticButton>
               <a
                 href="#sponsors"
-                className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors"
+                className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors leading-none"
               >
                 {t.hero.becomeSponsor}
               </a>
@@ -113,26 +163,6 @@ export default function Hero() {
                 </span>
               ))}
             </motion.div>
-          </motion.div>
-
-          {/* Right: Visual Element (optional decorative element) */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="hidden md:block"
-          >
-            <div className="relative w-full h-96 flex items-center justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-dbw-red/20 to-dbw-blue/20 rounded-3xl blur-3xl"></div>
-              <div className="relative w-full h-full bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="text-6xl font-bold text-dbw-red/30 font-handwritten">{t.hero.year}</div>
-                  <div className="text-lg text-dbw-gray-light">
-                    República Dominicana
-                  </div>
-                </div>
-              </div>
-            </div>
           </motion.div>
         </div>
       </div>
