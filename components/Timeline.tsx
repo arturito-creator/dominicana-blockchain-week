@@ -253,7 +253,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
               <div className="w-full">
                 <div className="md:hidden flex items-baseline gap-0 mb-4">
                   <span className="text-[3.5vh] font-bold text-white leading-none">+</span>
-                  <span className="text-[3.5vh] font-bold text-white leading-none">
+                  <span className="text-[5vh] font-bold text-white leading-none">
                     <AnimatedNumber value={item.number} />
                   </span>
                 </div>

@@ -23,8 +23,8 @@ export default function Hero() {
       id="hero"
       className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
     >
-      {/* Polaroid Cards - Stacked in bottom right */}
-      <div className="absolute bottom-8 right-8 z-20 pointer-events-none" style={{ width: '300px', height: '400px' }}>
+      {/* Polaroid Cards - Stacked in bottom right - Hidden on mobile */}
+      <div className="hidden md:block absolute bottom-8 right-8 z-20 pointer-events-none" style={{ width: '300px', height: '400px' }}>
         <div className="relative w-full h-full">
           <PolaroidCard
             image="/fotos_evento/Drag1.jpg"

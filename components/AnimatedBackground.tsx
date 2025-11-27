@@ -29,8 +29,24 @@ export default function AnimatedBackground() {
     const smoothMouse = { x: 0, y: 0 };
 
     const resize = () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1;
+      
+      // Set display size (CSS pixels)
+      canvas.style.width = `${window.innerWidth}px`;
+      canvas.style.height = `${window.innerHeight}px`;
+      
+      // Set actual size in memory (scaled for device pixel ratio)
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      
+      // Reset transform and scale the drawing context to match device pixel ratio
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      
+      // Update width/height for drawing calculations (in CSS pixels)
+      width = window.innerWidth;
+      height = window.innerHeight;
+      
       initLines();
     };
 
@@ -56,7 +72,7 @@ export default function AnimatedBackground() {
     const draw = () => {
       if (!ctx) return;
       
-      // Clear canvas
+      // Clear canvas (using CSS pixel dimensions since context is scaled)
       ctx.clearRect(0, 0, width, height);
       
       // Increase time for automatic wave movement

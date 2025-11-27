@@ -58,3 +58,13 @@ body {
   background: var(--dbw-red-default);
 }
 
+/* Animación de scroll lento para logos gubernamentales */
+@keyframes scroll-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+

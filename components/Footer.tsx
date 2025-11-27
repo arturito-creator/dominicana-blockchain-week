@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -11,8 +12,45 @@ const socialLinks = [
 ];
 
 
+const governmentLogos = [
+  { src: '/logos_gubernamentales/1_alcaldia_del_distrito_nacional_rd.png', alt: 'Alcaldía del Distrito Nacional RD' },
+  { src: '/logos_gubernamentales/2_itla.png', alt: 'ITLA' },
+  { src: '/logos_gubernamentales/3_gobierno_de_rd.png', alt: 'Gobierno de República Dominicana' },
+  { src: '/logos_gubernamentales/4_consulado_rd_barcelona.png', alt: 'Consulado RD Barcelona' },
+  { src: '/logos_gubernamentales/5_banco_central_rd.png', alt: 'Banco Central RD' },
+  { src: '/logos_gubernamentales/6_banco_central_rd_2.png', alt: 'Banco Central RD' },
+  { src: '/logos_gubernamentales/7_pro_dominicana.png', alt: 'Pro Dominicana' },
+];
+
 export default function Footer() {
   const { t } = useLanguage();
+  const logosContainerRef = useRef<HTMLDivElement>(null);
+  const logosContentRef = useRef<HTMLDivElement>(null);
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+
+  useEffect(() => {
+    const checkIfNeedsAnimation = () => {
+      if (logosContainerRef.current && logosContentRef.current) {
+        const containerWidth = logosContainerRef.current.offsetWidth;
+        const contentWidth = logosContentRef.current.scrollWidth;
+        // Si el contenido es más ancho que el contenedor, activar animación
+        setShouldAnimate(contentWidth > containerWidth);
+      }
+    };
+
+    // Esperar a que el DOM esté completamente renderizado
+    const timeoutId = setTimeout(() => {
+      checkIfNeedsAnimation();
+    }, 200);
+
+    // También verificar cuando la ventana cambie de tamaño
+    window.addEventListener('resize', checkIfNeedsAnimation);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', checkIfNeedsAnimation);
+    };
+  }, []);
 
   const legalLinks = [
     { name: t.footer.legal.privacyPolicy, href: '#' },
@@ -118,56 +156,49 @@ export default function Footer() {
 
         {/* Government Logos */}
         <div className="pt-8 border-t border-white/10 mb-8">
-          <div className="flex flex-nowrap items-center justify-center gap-3 md:gap-4 overflow-x-auto">
-            <Image
-              src="/logos_gubernamentales/1_alcaldia_del_distrito_nacional_rd.png"
-              alt="Alcaldía del Distrito Nacional RD"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
-            <Image
-              src="/logos_gubernamentales/2_itla.png"
-              alt="ITLA"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
-            <Image
-              src="/logos_gubernamentales/3_gobierno_de_rd.png"
-              alt="Gobierno de República Dominicana"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
-            <Image
-              src="/logos_gubernamentales/4_consulado_rd_barcelona.png"
-              alt="Consulado RD Barcelona"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
-            <Image
-              src="/logos_gubernamentales/5_banco_central_rd.png"
-              alt="Banco Central RD"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
-            <Image
-              src="/logos_gubernamentales/6_banco_central_rd_2.png"
-              alt="Banco Central RD"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
-            <Image
-              src="/logos_gubernamentales/7_pro_dominicana.png"
-              alt="Pro Dominicana"
-              width={150}
-              height={100}
-              className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
-            />
+          <div 
+            ref={logosContainerRef}
+            className={`flex items-center justify-center ${
+              shouldAnimate ? 'overflow-hidden' : 'overflow-x-auto flex-wrap'
+            }`}
+          >
+            <div
+              ref={logosContentRef}
+              className={`flex items-center gap-3 md:gap-4 ${
+                shouldAnimate ? 'flex-nowrap' : ''
+              }`}
+              style={
+                shouldAnimate
+                  ? {
+                      animation: 'scroll-slow 30s linear infinite',
+                    }
+                  : {}
+              }
+            >
+              {/* Primera serie de logos */}
+              {governmentLogos.map((logo, index) => (
+                <Image
+                  key={`first-${index}`}
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={150}
+                  height={100}
+                  className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+                />
+              ))}
+              {/* Segunda serie de logos (para el loop infinito) */}
+              {shouldAnimate &&
+                governmentLogos.map((logo, index) => (
+                  <Image
+                    key={`second-${index}`}
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={150}
+                    height={100}
+                    className="h-20 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity flex-shrink-0"
+                  />
+                ))}
+            </div>
           </div>
         </div>
 
