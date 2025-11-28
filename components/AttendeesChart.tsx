@@ -254,7 +254,7 @@ export default function AttendeesChart({ imageUrl, description }: AttendeesChart
           >
             <Image
               src={imageUrl}
-              alt="Asistentes"
+              alt="Asistentes de Dominicana Blockchain Week 2026 - Comunidad global de profesionales blockchain"
               fill
               className="object-cover"
               unoptimized

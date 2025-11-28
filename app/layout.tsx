@@ -14,10 +14,16 @@ const dmSans = DM_Sans({
   display: 'swap',
 });
 
+const baseUrl = 'https://www.dominicanablockchainweek.com';
+
 export const metadata: Metadata = {
-  title: 'Dominicana Blockchain Week 2026 | Premier Blockchain Event in the Caribbean',
+  metadataBase: new URL(baseUrl),
+  title: {
+    default: 'Dominicana Blockchain Week 2026 | Premier Blockchain Event in the Caribbean',
+    template: '%s | Dominicana Blockchain Week 2026',
+  },
   description:
-    'Join the premier blockchain, Web3, DeFi, and crypto event in the Caribbean. Explore regulation, innovation, and the future of decentralized technology in Latin America.',
+    'Join the premier blockchain, Web3, DeFi, and crypto event in the Caribbean. Explore regulation, innovation, and the future of decentralized technology in Latin America. March 2026, Santo Domingo, Dominican Republic.',
   keywords: [
     'blockchain',
     'crypto',
@@ -27,21 +33,58 @@ export const metadata: Metadata = {
     'LatAm',
     'blockchain conference',
     'cryptocurrency event',
+    'blockchain week',
+    'Santo Domingo',
+    'Caribbean blockchain',
+    'Latin America crypto',
+    'blockchain regulation',
+    'crypto conference',
+    'blockchain summit',
   ],
   authors: [{ name: 'Dominicana Blockchain Week' }],
+  creator: 'Dominicana Blockchain Week',
+  publisher: 'Dominicana Blockchain Week',
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: {
-    title: 'Dominicana Blockchain Week 2026',
-    description:
-      'Join the premier blockchain, Web3, DeFi, and crypto event in the Caribbean.',
     type: 'website',
-    locale: 'en_US',
+    locale: 'es_ES',
+    alternateLocale: ['en_US'],
+    url: baseUrl,
+    siteName: 'Dominicana Blockchain Week 2026',
+    title: 'Dominicana Blockchain Week 2026 | Premier Blockchain Event in the Caribbean',
+    description:
+      'Join the premier blockchain, Web3, DeFi, and crypto event in the Caribbean. March 2026, Santo Domingo, Dominican Republic.',
+    images: [
+      {
+        url: `${baseUrl}/THE_LOGO_DBW2026.png`,
+        width: 1600,
+        height: 800,
+        alt: 'Dominicana Blockchain Week 2026 Logo',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'Dominicana Blockchain Week 2026',
     description:
-      'Join the premier blockchain, Web3, DeFi, and crypto event in the Caribbean.',
+      'Join the premier blockchain, Web3, DeFi, and crypto event in the Caribbean. March 2026, Santo Domingo.',
+    images: [`${baseUrl}/THE_LOGO_DBW2026.png`],
   },
+  alternates: {
+    canonical: baseUrl,
+  },
+  category: 'Technology',
+  classification: 'Blockchain Conference',
 };
 
 export default function RootLayout({

@@ -342,7 +342,7 @@ export default function Speakers({ showSearch = false }: SpeakersProps) {
                   <div className="relative h-64 bg-gradient-to-br from-dbw-blue to-dbw-blue-dark overflow-hidden flex items-end justify-center p-4 pb-0">
                     <Image
                       src={speaker.image}
-                      alt={speaker.name}
+                      alt={`${speaker.name} - Ponente de Dominicana Blockchain Week 2026`}
                       width={200}
                       height={240}
                       className="object-contain w-auto h-full max-h-[240px] select-none"
