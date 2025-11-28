@@ -1,7 +1,7 @@
 import Hero from '@/components/Hero';
 import About from '@/components/About';
 import Speakers from '@/components/Speakers';
-import Agenda from '@/components/Agenda';
+import AgendaPreview from '@/components/AgendaPreview';
 import Venue from '@/components/Venue';
 import Tickets from '@/components/Tickets';
 import Sponsors from '@/components/Sponsors';
@@ -15,7 +15,7 @@ export default function Home() {
       <Hero />
       <About />
       <Speakers />
-      <Agenda />
+      <AgendaPreview />
       <Venue />
       <Tickets />
       <Sponsors />

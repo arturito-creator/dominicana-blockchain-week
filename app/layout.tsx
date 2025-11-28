@@ -4,6 +4,7 @@ import './globals.css';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FloatingTicketButton from '@/components/FloatingTicketButton';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 
 const dmSans = DM_Sans({
@@ -73,6 +74,7 @@ export default function RootLayout({
               <Navbar />
               <main>{children}</main>
               <Footer />
+              <FloatingTicketButton />
             </div>
           </div>
         </LanguageProvider>

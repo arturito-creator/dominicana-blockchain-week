@@ -63,8 +63,7 @@ export default function Tickets() {
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -82,8 +81,7 @@ export default function Tickets() {
             <motion.div
               key={tier.name}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
               whileHover={{ y: -8, transition: { duration: 0.3 } }}
               className={`relative bg-white/5 backdrop-blur-sm border rounded-xl ${
@@ -141,7 +139,7 @@ export default function Tickets() {
                  </div>
                ) : (
                  <a
-                   href="#contact"
+                   href="/contacto"
                    className={`block w-full text-center py-3 px-6 rounded-lg font-semibold transition-colors ${
                      tier.highlighted
                        ? 'bg-dbw-red text-white hover:bg-dbw-red-dark'
@@ -157,16 +155,15 @@ export default function Tickets() {
 
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
           className="text-center mt-12"
         >
           <p className="text-dbw-gray-light mb-4">
             {t.tickets.groupDiscounts}
           </p>
           <a
-            href="#contact"
+            href="/contacto"
             className="inline-block px-6 py-3 bg-transparent border-2 border-dbw-red text-dbw-red font-semibold rounded-lg hover:bg-dbw-red hover:text-white transition-colors"
           >
             {t.tickets.contactGroupRates}

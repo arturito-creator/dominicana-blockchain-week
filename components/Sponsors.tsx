@@ -46,7 +46,7 @@ export default function Sponsors() {
             {t.sponsors.description}
           </p>
           <a
-            href="#contact"
+            href="/contacto/sponsor"
             className="inline-block px-6 py-3 bg-dbw-red text-white font-semibold rounded-lg hover:bg-dbw-red-dark transition-colors"
           >
             {t.sponsors.becomeSponsor}

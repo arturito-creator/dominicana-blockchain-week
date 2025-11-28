@@ -90,7 +90,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#about"
+                  href="/#about"
                   className="text-dbw-gray-light text-sm hover:text-white transition-colors"
                 >
                   {t.nav.about}
@@ -98,7 +98,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#speakers"
+                  href="/ponentes"
                   className="text-dbw-gray-light text-sm hover:text-white transition-colors"
                 >
                   {t.nav.speakers}
@@ -106,7 +106,15 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#tickets"
+                  href="/agenda"
+                  className="text-dbw-gray-light text-sm hover:text-white transition-colors"
+                >
+                  {t.nav.agenda}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/tickets"
                   className="text-dbw-gray-light text-sm hover:text-white transition-colors"
                 >
                   {t.nav.tickets}
@@ -114,10 +122,18 @@ export default function Footer() {
               </li>
               <li>
                 <Link
-                  href="#contact"
+                  href="/contacto"
                   className="text-dbw-gray-light text-sm hover:text-white transition-colors"
                 >
                   {t.nav.contact}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/mapa-del-sitio"
+                  className="text-dbw-gray-light text-sm hover:text-white transition-colors"
+                >
+                  Mapa del Sitio
                 </Link>
               </li>
             </ul>

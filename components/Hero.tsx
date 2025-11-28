@@ -71,6 +71,7 @@ export default function Hero() {
           >
             {/* Logo */}
             <motion.div
+              id="hero-logo"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.8 }}
@@ -121,20 +122,20 @@ export default function Hero() {
             >
               <MagneticButton>
                 <a
-                  href="#tickets"
+                  href="/tickets"
                   className="px-8 py-4 bg-dbw-red text-white font-semibold rounded-lg hover:bg-dbw-red-dark transition-colors shadow-lg hover:shadow-xl border-2 border-transparent leading-none"
                 >
                   {t.hero.getTickets}
                 </a>
               </MagneticButton>
               <a
-                href="#sponsors"
+                href="/contacto/sponsor"
                 className="px-8 py-4 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors leading-none"
               >
                 {t.hero.becomeSponsor}
               </a>
               <a
-                href="#contact"
+                href="/contacto"
                 className="px-8 py-4 text-dbw-gray-light font-semibold rounded-lg hover:text-white transition-colors"
               >
                 {t.hero.downloadDeck}

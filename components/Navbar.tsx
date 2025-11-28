@@ -1,97 +1,135 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
   const { t, language, setLanguage } = useLanguage();
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isScrolled, setIsScrolled] = useState(false);
+  const pathname = usePathname();
+  const [showLogo, setShowLogo] = useState(pathname !== '/');
+  const [shouldAnimate, setShouldAnimate] = useState(false);
+  const hasAnimatedRef = useRef(false);
 
   const navSections = [
-    { name: t.nav.home, href: '#hero', key: 'home' },
-    { name: t.nav.about, href: '#about', key: 'about' },
-    { name: t.nav.speakers, href: '#speakers', key: 'speakers' },
-    { name: t.nav.agenda, href: '#agenda', key: 'agenda' },
-    { name: t.nav.venue, href: '#venue', key: 'venue' },
-    { name: t.nav.tickets, href: '#tickets', key: 'tickets' },
-    { name: t.nav.sponsors, href: '#sponsors', key: 'sponsors' },
-    { name: t.nav.contact, href: '#contact', key: 'contact' },
+    { name: t.nav.home, href: '/', key: 'home' },
+    { name: t.nav.speakers, href: '/ponentes', key: 'speakers' },
+    { name: t.nav.agenda, href: '/agenda', key: 'agenda' },
+    { name: t.nav.tickets, href: '/tickets', key: 'tickets' },
+    { name: t.nav.contact, href: '/contacto', key: 'contact' },
   ];
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+    // Si no estamos en home, siempre mostrar el logo sin animación
+    if (pathname !== '/') {
+      setShowLogo(true);
+      setShouldAnimate(false);
+      hasAnimatedRef.current = false;
+      return;
+    }
 
-      // Update active section based on scroll position
-      const sections = navSections.map((s) => s.href.replace('#', ''));
-      const current = sections.find((section) => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+    // Resetear cuando volvemos a home
+    hasAnimatedRef.current = false;
+    setShouldAnimate(false);
+    setShowLogo(false); // Inicialmente oculto en home
+
+    // Si estamos en home, verificar si el logo grande es visible
+    let previousVisible = true;
+    
+    const checkLogoVisibility = () => {
+      const heroLogo = document.getElementById('hero-logo');
+      if (heroLogo) {
+        const rect = heroLogo.getBoundingClientRect();
+        // El logo grande no está visible cuando está completamente fuera de la pantalla
+        const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
+        const shouldShow = !isVisible;
+        
+        // Solo animar cuando el logo grande pasa de visible a no visible por primera vez
+        if (shouldShow && previousVisible && !hasAnimatedRef.current) {
+          setShouldAnimate(true);
+          hasAnimatedRef.current = true;
+        } else if (!shouldShow) {
+          setShouldAnimate(false);
         }
-        return false;
-      });
-
-      if (current) {
-        setActiveSection(current);
+        
+        setShowLogo(shouldShow);
+        previousVisible = isVisible;
+      } else {
+        // Si no existe el logo grande aún (cargando), esperar un poco más
+        setShowLogo(false);
+        setShouldAnimate(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    // Verificar al cargar con un pequeño delay para asegurar que el DOM esté listo
+    const timeoutId = setTimeout(checkLogoVisibility, 200);
+    checkLogoVisibility();
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const targetId = href.replace('#', '');
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // Verificar al hacer scroll
+    window.addEventListener('scroll', checkLogoVisibility, { passive: true });
+    window.addEventListener('resize', checkLogoVisibility);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('scroll', checkLogoVisibility);
+      window.removeEventListener('resize', checkLogoVisibility);
+    };
+  }, [pathname]);
+
+  const isActive = (href: string) => {
+    if (href === '/') {
+      return pathname === '/';
     }
+    return pathname?.startsWith(href);
   };
 
   return (
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-dbw-blue-dark/90 backdrop-blur-md border-b border-dbw-blue-default/30'
-          : 'bg-transparent'
-      }`}
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-dbw-blue-dark/90 backdrop-blur-md border-b border-dbw-blue-default/30"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
-          <Link href="#hero" className="flex items-center">
-            <div className="relative h-8 w-auto md:h-10">
-              <Image
-                src="/DBW2026_LogoCorto.png"
-                alt="Dominicana Blockchain Week 2026"
-                fill
-                className="object-contain"
-                priority
-              />
-            </div>
-          </Link>
+          {/* Logo - Aparece con animación desde arriba cuando el logo grande no es visible */}
+          {showLogo ? (
+            <motion.div
+              key="navbar-logo"
+              initial={shouldAnimate ? { opacity: 0, y: -50 } : { opacity: 1, y: 0 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              transition={{ duration: 0.4, ease: 'easeOut' }}
+              className="flex items-center"
+            >
+              <Link href="/" className="flex items-center">
+                <div className="relative h-8 w-24 md:h-10 md:w-32">
+                  <Image
+                    src="/DBW2026_LogoCorto.png"
+                    alt="Dominicana Blockchain Week 2026"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </Link>
+            </motion.div>
+          ) : (
+            <div className="w-0" aria-hidden="true" />
+          )}
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navSections.map((section) => {
-              const sectionId = section.href.replace('#', '');
-              const isActive = activeSection === sectionId;
+              const sectionActive = isActive(section.href);
               return (
                 <Link
                   key={section.href}
                   href={section.href}
-                  onClick={(e) => handleNavClick(e, section.href)}
                   className={`px-4 py-2 text-sm font-medium transition-colors rounded-lg ${
-                    isActive
+                    sectionActive
                       ? 'text-dbw-red bg-dbw-red/10'
                       : 'text-dbw-gray-light hover:text-white hover:bg-white/5'
                   }`}

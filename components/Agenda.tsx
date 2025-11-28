@@ -60,8 +60,7 @@ export default function Agenda() {
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -92,9 +91,8 @@ export default function Agenda() {
             <motion.div
               key={day.day}
               initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: dayIndex * 0.2, duration: 0.6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: dayIndex * 0.1, duration: 0.6 }}
               className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 md:p-8"
             >
               <div className="mb-6 pb-4 border-b border-white/10">
@@ -133,16 +131,15 @@ export default function Agenda() {
 
         <motion.div
           initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.8 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
           className="text-center mt-12"
         >
           <p className="text-dbw-gray-light mb-4">
             {t.agenda.detailedAgendaComing}
           </p>
           <a
-            href="#contact"
+            href="/contacto"
             className="inline-block px-6 py-3 bg-dbw-red text-white font-semibold rounded-lg hover:bg-dbw-red-dark transition-colors"
           >
             {t.agenda.downloadAgenda}
